@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "782221744987",
+    "firebase_url": "https://familynews7-a1cf6.firebaseio.com",
+    "project_id": "familynews7-a1cf6",
+    "storage_bucket": "familynews7-a1cf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782221744987:android:911203a9f22b48e904187e",
+        "android_client_info": {
+          "package_name": "com.bakseynews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782221744987-9brbapfa4ts30v4kc9gmhr1d75u1f1k0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMwtRMsFkn7pLYyTREZMuBROVRjbe7BHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782221744987-9brbapfa4ts30v4kc9gmhr1d75u1f1k0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782221744987-u4b1u9duqcakpjnfleg0js9kt0gv4b9p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.phsartech.bakseynews"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
