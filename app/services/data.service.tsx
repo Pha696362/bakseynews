@@ -23,7 +23,7 @@ export function ContentRef() {
 
 
 export function ContentRefLoad(lastVisible?: any, categoryKey?: string) {
-
+    console.log('ContentRefLoad',ContentRefLoad)
     if (lastVisible) {
       if (categoryKey) {
         return db

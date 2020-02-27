@@ -10,14 +10,16 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-//#import "RNFirebaseNotifications.h"
-
+#import "RNSplashScreen.h"
+#import "RNFirebaseNotifications.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+
 {
+  [RNFirebaseNotifications configure];
   [FIRApp configure];
-//  [RNFirebaseNotifications configure];
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"BakseyNews"
@@ -30,6 +32,8 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [RNSplashScreen show];
+
  
   return YES;
 }

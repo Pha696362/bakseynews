@@ -2,8 +2,7 @@ import * as admin from "firebase-admin";
 
 export async function onNotificationDevices(data: any, context: any) {
   const doc: any = data;
-  const { name, fileUrl, key } = doc;
-
+  const { name, fileurl, key } = doc;
   const message = {
     topic: `bakseynews`,
     data: {
@@ -14,25 +13,24 @@ export async function onNotificationDevices(data: any, context: any) {
     notification: {
       title: "bakseynews",
       body: name,
-      imageUrl: fileUrl
+      imageUrl: fileurl
     },
     apns: {
       payload: {
         aps: {
           "mutable-content": 1,
           sound: "default"
-        },
-       
+        }
       },
       fcm_options: {
-        image: fileUrl
+        image: fileurl
       }
     },
     android: {
       notification: {
         title: "bakseynews",
         body: name,
-        image: fileUrl,
+        image: fileurl,
         sound: "default"
       }
     }

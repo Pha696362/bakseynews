@@ -49,7 +49,7 @@ export default class HomeContainer extends React.Component<Props, State> {
     StatusBar.setBarStyle('light-content');
     await this.props.messaging.setUserToken();
     await this.props.messaging.checkPermission();
-    await this.props.messaging.initialNotification();
+    this.props.messaging.initialNotification(this.props.navigation);
     this.props.content.fetchContent()
     this.props.category.fetchCategory();
     this.props.ads.fetchAds();

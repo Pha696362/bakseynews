@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* BakseyNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BakseyNewsTests.m */; };
 		01C9280D07374AB98D638733 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 691FC3D31D864619BAA09C2D /* MaterialCommunityIcons.ttf */; };
-		02E5CB1723E8010800C3FEC3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02E5CB1623E8010800C3FEC3 /* GoogleService-Info.plist */; };
+		023524C423F3CE1F001B86D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 023524C323F3CE1F001B86D1 /* GoogleService-Info.plist */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -72,8 +72,8 @@
 		00E356EE1AD99517003FC87E /* BakseyNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BakseyNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BakseyNewsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BakseyNewsTests.m; sourceTree = "<group>"; };
+		023524C323F3CE1F001B86D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "assets/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0237726B23EBCD2A006C6454 /* BakseyNews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BakseyNews.entitlements; path = BakseyNews/BakseyNews.entitlements; sourceTree = "<group>"; };
-		02E5CB1623E8010800C3FEC3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "assets/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02FC7869E8CAE519B94402EE /* Pods-BakseyNews-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BakseyNews-tvOS.release.xcconfig"; path = "Target Support Files/Pods-BakseyNews-tvOS/Pods-BakseyNews-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		03AAE708FA6F4C2CBEFACA48 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BakseyNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BakseyNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +197,7 @@
 		13B07FAE1A68108700A75B9A /* BakseyNews */ = {
 			isa = PBXGroup;
 			children = (
+				023524C323F3CE1F001B86D1 /* GoogleService-Info.plist */,
 				0237726B23EBCD2A006C6454 /* BakseyNews.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -232,7 +233,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				02E5CB1623E8010800C3FEC3 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* BakseyNews */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* BakseyNewsTests */,
@@ -451,7 +451,7 @@
 				5B42D81DCA334EF8B81068F0 /* Entypo.ttf in Resources */,
 				F8F48CEEA6D349D682505F8A /* EvilIcons.ttf in Resources */,
 				385AE7A73EC34A378D07A1E8 /* Feather.ttf in Resources */,
-				02E5CB1723E8010800C3FEC3 /* GoogleService-Info.plist in Resources */,
+				023524C423F3CE1F001B86D1 /* GoogleService-Info.plist in Resources */,
 				42552E47C8924F2EB4EB261B /* FontAwesome.ttf in Resources */,
 				C0669A58609249FA976C5A72 /* FontAwesome5_Brands.ttf in Resources */,
 				BEE089C4E57446479DA696CC /* FontAwesome5_Regular.ttf in Resources */,

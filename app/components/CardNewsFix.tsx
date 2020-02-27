@@ -9,7 +9,7 @@ import ICon from "react-native-vector-icons/Entypo";
 import Eye from "react-native-vector-icons/SimpleLineIcons";
 import modules from '../modules';
 import { BattambangBold } from '../../function/customFont';
-import { removeTag } from '../services/formattext.service'
+import { removeTag } from '../services/formattext.service';
 
 
 

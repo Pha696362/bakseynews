@@ -27,8 +27,6 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
       
       <SafeAreaView />
 
-
-
       <HeaderMain title="Saved Items" onDelete={
 
         !data || data.length == 0 ?
@@ -74,7 +72,7 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
             </View>
 
             :
-            // <View style={styles.content}>
+            <View style={styles.content}>
               <FlatList
                 data={data}
                 renderItem={(item: any) => {
@@ -88,7 +86,7 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
                 }}
               />
 
-            // </View>
+             </View>
       }
 
     </View>

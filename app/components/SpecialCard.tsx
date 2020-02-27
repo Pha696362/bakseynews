@@ -10,72 +10,42 @@ import { _formatDateTime } from "../services/datetime.service";
 import More from "react-native-vector-icons/Entypo";
 
 interface Props {
-    onPress: () => void
-    onSave?: any
-data:any
+  onPress: () => void
+  onSave?: any
+  data: any
 }
 
-interface State {}
+interface State { }
 
-export default ({onPress,data,onSave }: Props) => {
+export default ({ onPress, data, onSave }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.CardContainer}>
-      <FastImage style={styles.Image} source={{ uri: data.fileurl}} />
-       <View style={styles.text}>
-
-        <Text numberOfLines={1} style={styles.TitleFont}>
-          {data.name}
-        </Text>
+      <View style={styles.groupImg}>
+        <FastImage style={styles.Image} source={{ uri: data.fileurl }} />
       </View>
-     
-  
+      <Text numberOfLines={1} style={styles.TitleFont}>{data.name}</Text>
     </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
-  Icon: {
-    fontSize: 24,
-    paddingLeft: 12
-  },
-  Info: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: modules.SPACE5,
-    justifyContent: "space-between"
-  },
-  TitleFont: {
-    fontSize:12,
-    ...BattambangBold,
-    color:'#000'
-  },
-  CategoryFont: {
-    fontSize: modules.FONT_H6,
-    ...Battambang,
-    color: modules.SUB_TEXT,
-    marginVertical: modules.SPACE
-  },
+
   CardContainer: {
-    width: modules.VIEW_PORT_WIDTH/2-24,
-    // backgroundColor: modules.BACKGROUND_PRIMARY,
-    paddingHorizontal: modules.BODY_HORIZONTAL_12,
-    marginTop: modules.PADDING/2,  
+    marginTop: modules.BIG_SPACE + 2,
+  },
+  groupImg: {
+
+    height: modules.VIEW_PORT_HEIGHT / 8,
+    paddingHorizontal: modules.SPACE,
+    marginTop: modules.PADDING / 2,
   },
   Image: {
     width: "100%",
-    height: modules.VIEW_PORT_HEIGHT /8,
-    borderRadius: 12,
-    overflow: "hidden",
-    marginTop: modules.SPACE
+    height: '100%',
+    borderRadius: modules.BIG_SPACE,
   },
-  text: {
-    paddingVertical: modules.SPACE * 2,
-    backgroundColor: modules.BACKGROUND_PRIMARY,
-    
-    
+  TitleFont: {
+    width: modules.VIEW_PORT_WIDTH / 3.5,
+    paddingHorizontal: modules.SPACE,
+    fontSize:12
   },
-  fontText: {
-    fontSize:14,
-    ...Battambang,
-    color: modules.SUB_TEXT
-  }
 });

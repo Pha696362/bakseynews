@@ -14,11 +14,11 @@ export async function initialMessaging() {
 }
 
 export async function getToken() {
-  let fcmToken = await AsyncStorage.getItem('realEstateCloud');
+  let fcmToken = await AsyncStorage.getItem('BSN');
   if (!fcmToken) {
     fcmToken = await firebase.messaging().getToken();
     if (fcmToken) {
-      await AsyncStorage.setItem('realEstateCloud', fcmToken);
+      await AsyncStorage.setItem('BSN', fcmToken);
     }
   }
   return fcmToken;

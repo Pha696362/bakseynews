@@ -2,9 +2,9 @@ import * as React from 'react';
 import { View, StyleSheet, StatusBar, Share } from 'react-native';
 import DetailScreen from './DetailScreen';
 import { inject, observer } from 'mobx-react';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 
-interface Props {
-  navigation: any;
+interface Props extends NavigationStackScreenProps {
   content: any,
   bookmark: any
 }
@@ -12,6 +12,7 @@ interface Props {
 interface State {
   selectedItem: any
   saveData: boolean
+  detail: any
 
 }
 @inject('content', 'bookmark')
@@ -23,11 +24,26 @@ export default class DetailContainer extends React.Component<Props, State> {
     this.state = {
       saveData: false,
       selectedItem: null,
+      detail: null
 
     };
   }
+
+  ///NITICATION
+  UNSAFE_componentWillMount() {
+    const { params }: any = this.props.navigation.state
+    if (params) {
+      const { DATA } = params
+      if (DATA) {
+        this.setState({ detail: DATA })
+        this.props.content.fetchDetail(DATA)
+        // console.log('DATA',DATA)
+      }
+    }
+  }
+
   async  componentDidMount() {
-    <StatusBar barStyle="dark-content" />
+    < StatusBar barStyle="dark-content" />
     const { selectedDetail } = await this.props.content;
     this.props.content.updateTopView(selectedDetail.key)
     await this.props.bookmark.fetchSave(selectedDetail.key)
@@ -52,7 +68,7 @@ export default class DetailContainer extends React.Component<Props, State> {
     await this.props.bookmark.fetchFavorite();
     this.setState({ saveData: !this.state.saveData })
   };
- 
+
   _onShare = async () => {
 
     const { selectedDetail } = this.props.content
@@ -78,12 +94,13 @@ export default class DetailContainer extends React.Component<Props, State> {
   public render() {
     const { selectedDetail } = this.props.content
 
-
+    console.log('selectedDetail', selectedDetail)
+    const { detail } = this.state
     return (
 
       <DetailScreen
         onClickBack={() => this.props.navigation.goBack()}
-        selectedContent={selectedDetail}
+        selectedContent={detail || selectedDetail}
         saveData={this.state.saveData}
         onSave={this._onSave}
         onUnSave={this._onUnSave}

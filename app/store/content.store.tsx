@@ -59,9 +59,9 @@ export default class CONTENTSTORE {
                         this.contentLastVisible = null;
                     }
                     this.dataContent = data;
-                    console.log('this.dataContent without category', this.dataContent)
+                    // console.log('this.dataContent without category', this.dataContent)
                     this.dataSpecial = data.splice(0, 6)
-                    console.log('this.dataSepcial without category', this.dataSpecial)
+                    // console.log('this.dataSepcial without category', this.dataSpecial)
                     this.loading = false;
                 })
                 .catch(e => {
@@ -101,7 +101,7 @@ export default class CONTENTSTORE {
 
     @action
     fetchMoreContent(categoryKey: string) {
-        console.log('categoryKey :', categoryKey);
+        // console.log('categoryKey :', categoryKey);
         if (!this.contentLastVisible || this.loadingMore) return;
         this.loadingMore = true;
         if (categoryKey) {

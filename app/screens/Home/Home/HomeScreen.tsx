@@ -79,7 +79,7 @@ export default ({ onfb, onEndReached, loadingMore, loading, onRefresh, onUnSave,
           renderTabBar={() =>
 
             <ScrollableTabBar style={{ borderBottomWidth: 0, }} />}
-        >
+           >
           {
             category.map((m: any, index: any) => {
               return (
@@ -218,6 +218,7 @@ const renderBigCard = (item: any, onPress: any, onModal: any) => {
     <ScrollView 
     horizontal
     showsHorizontalScrollIndicator={false}
+    style={{marginHorizontal: modules.BIG_SPACE+2}}
     >
       <View style={styles.specialContainer}>
         {item.map((item: any) => {
@@ -331,9 +332,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 0.3,
     borderBottomColor: 'rgba(0,0,0,0.1)'
-
-
-
 
   },
   icon: {
