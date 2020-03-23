@@ -1,6 +1,6 @@
 
 import { observable, action } from 'mobx'
-import { ContentRefLoad, updatecontentRef } from '../services/data.service';
+import { ContentRefLoad, updatecontentRef, linkRef } from '../services/data.service';
 import { pushToArray, pushToObject } from '../services/mapping.service';
 import { appConfig } from '../dummy/appConfig';
 
@@ -15,13 +15,9 @@ export default class CONTENTSTORE {
     @observable homeSlide: any[] = [];
     @observable imageDocs: any[] = []
     @observable contentLastVisible: any = null;
-
-
     @observable dataSpecial: Array<any> = [];
-
-
-
-
+    @observable link: any = null;
+  
     @action
     fetchContent(categoryKey: string) {
         this.loading = true;
@@ -71,7 +67,6 @@ export default class CONTENTSTORE {
                 });
         }
     }
-
     @action
     fetchRefreshContent(categoryKey: string) {
         this.loadingRefresh = true;
@@ -142,25 +137,10 @@ export default class CONTENTSTORE {
                 });
         }
     }
-
-
     @action
     fetchDetail(item: any) {
         this.selectedDetail = item
     }
-
-    //     @action
-    //   async updateTopView(key: any) {
-    //     const data: any = await updatecontentRef()
-    //       .doc(key)
-    //       .get();
-    //     const top_view: any = pushToObject(data);
-    //     const number: number = top_view.top_view + 1;
-    //     await updatecontentRef()
-    //       .doc(key)
-    //       .update("top_view", number);
-    //   }
-
     @action
     async updateTopView(key: any) {
         const data: any = await updatecontentRef()
@@ -176,11 +156,17 @@ export default class CONTENTSTORE {
     async fetchImageGallary(item: any) {
         this.loading = true;
         this.imageDocs = await item.map((m: any) => { return m.url }
-
         )
         this.loading = false;
-
     }
+    @action
+    async fetchLink() {
+        this.loading = true;
+        const item: any = await linkRef().get();
+        this.link = pushToArray(item);
+        // console.log('this.link', this.link)
+        this.loading = false;
+    }  
 }
 
 

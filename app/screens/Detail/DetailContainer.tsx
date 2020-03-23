@@ -3,10 +3,12 @@ import { View, StyleSheet, StatusBar, Share } from 'react-native';
 import DetailScreen from './DetailScreen';
 import { inject, observer } from 'mobx-react';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { keys } from 'mobx';
 
 interface Props extends NavigationStackScreenProps {
   content: any,
   bookmark: any
+  relatedcontent:any,
 }
 
 interface State {
@@ -14,8 +16,9 @@ interface State {
   saveData: boolean
   detail: any
 
+
 }
-@inject('content', 'bookmark')
+@inject('content', 'bookmark','relatedcontent')
 @observer
 
 export default class DetailContainer extends React.Component<Props, State> {
@@ -37,18 +40,22 @@ export default class DetailContainer extends React.Component<Props, State> {
       if (DATA) {
         this.setState({ detail: DATA })
         this.props.content.fetchDetail(DATA)
-        // console.log('DATA',DATA)
+
       }
     }
   }
 
   async  componentDidMount() {
-    < StatusBar barStyle="dark-content" />
+    StatusBar.setBarStyle('light-content');
     const { selectedDetail } = await this.props.content;
     this.props.content.updateTopView(selectedDetail.key)
     await this.props.bookmark.fetchSave(selectedDetail.key)
     const { saveData } = this.props.bookmark
     this.setState({ saveData: saveData })
+    this.props.content.fetchLink();
+    this.props.relatedcontent.fetchRelatedContent(selectedDetail.category.key)
+    // console.log('selectedDetail', selectedDetail)
+
   }
   _onClickBack = () => {
     this.props.navigation.goBack()
@@ -68,14 +75,17 @@ export default class DetailContainer extends React.Component<Props, State> {
     await this.props.bookmark.fetchFavorite();
     this.setState({ saveData: !this.state.saveData })
   };
-
+  _onContent = (item: any) => {
+    this.props.content.fetchDetail(item)
+    this.props.navigation.navigate('Detail')
+  }
   _onShare = async () => {
-
-    const { selectedDetail } = this.props.content
+       const  key  = this.props.content.selectedDetail.key
+       const shareLink = this.props.content.link
     try {
       const result = await Share.share({
-        message: `https://bakseynews.com/article/${selectedDetail.key}`
 
+        message: `${shareLink[0].link}/${key}`
       });
 
       if (result.action === Share.sharedAction) {
@@ -93,8 +103,10 @@ export default class DetailContainer extends React.Component<Props, State> {
 
   public render() {
     const { selectedDetail } = this.props.content
+    const {datacontent} = this.props.content
+    const {relatedContentData} = this.props.relatedcontent
 
-    console.log('selectedDetail', selectedDetail)
+    // console.log('datacontent', datacontent)
     const { detail } = this.state
     return (
 
@@ -102,9 +114,12 @@ export default class DetailContainer extends React.Component<Props, State> {
         onClickBack={() => this.props.navigation.goBack()}
         selectedContent={detail || selectedDetail}
         saveData={this.state.saveData}
+        Content={datacontent}
         onSave={this._onSave}
         onUnSave={this._onUnSave}
         onShare={this._onShare}
+        relatedContentData={relatedContentData}
+        onPress={this._onContent}
 
 
       />

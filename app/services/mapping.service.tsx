@@ -1,6 +1,5 @@
+
 import { RNFirebase } from "react-native-firebase";
-// import moment from "moment";
-// import _ from 'lodash';
 
 export function nFormatter(num: number, digits: number) {
   var si = [
@@ -55,11 +54,6 @@ export function userObject(user: any) {
   }
 }
 
-
-// export function pageKey() {
-//   return Number(moment().format('YYYYMMDDHHmmss'));
-// }
-
 export function toLookUp(val: any) {
   return val.replace(/\s+/g, '').toLowerCase().trim();
 }
@@ -71,17 +65,6 @@ export function removeHtmlTag(text: string) {
 
 
 
-// export function addAdsInArray(content: any, ads: any, alternate: any) {
-//   const data = content.reduce((acc: any, curr: any, i: any) => {
-//     if ((i + 1) % alternate === 0) {
-//       const adIndex = Math.floor(i / alternate) % ads.length;
-//       return [...acc, curr, { ...ads[adIndex], isAdd: true }];
-//     }
-
-//     return [...acc, curr];
-//   }, []);
-//   return data;
-// }
 export function addAdsInArray(content: any, ads: any, alternate: any) {
   const items = content.reduce((acc: any, curr: any, i: any) => {
     if ((i) % (alternate-1) === 0) {

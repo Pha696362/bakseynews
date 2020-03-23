@@ -10,13 +10,10 @@ import _styles from "../_styles";
 import modules from "../modules";
 import DetailContainer from "../screens/Detail/DetailContainer";
 import SearchTabContainer from "../screens/Search/SearchTabContainer";
-import SaveTabContainer from "../screens/Save/SaveTabContainer";
+
 import SettingTabContainer from "../screens/Setting/SettingTabContainer";
 import HomeContainer from "../screens/Home/Home";
-
-
-
-
+import SaveTabContainer from "../screens/Save/SaveTabContainer";
 
 const TabNavigation = createBottomTabNavigator(
   {

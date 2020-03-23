@@ -6,7 +6,7 @@ export async function setBookmark(data: any) {
 
 export async function getBookmark() {
     const allKey = await AsyncStorage.getAllKeys()
-    const filterKey = allKey.filter(m => (m != 'fcmToken') && (m != 'realEstateCloud'))
+    const filterKey = allKey.filter(m => (m != 'fcmToken') && (m != 'realEstateCloud') && (m != 'BSN'))
     const allBookmark = await AsyncStorage.multiGet(filterKey)
     const map = allBookmark.map(m => { return { key: m[0], data: m[1] } })
     return map
@@ -18,6 +18,6 @@ export async function removeBookmark(key: string) {
 
 export async function removeAllBookmark() {
     const allKey = await AsyncStorage.getAllKeys()
-    const filterKey = allKey.filter(m => (m != 'fcmToken') && (m != 'realEstateCloud'))
+    const filterKey = allKey.filter(m => (m != 'fcmToken') && (m != 'realEstateCloud') && (m != 'BSN'))
     await AsyncStorage.multiRemove(filterKey)
 }

@@ -1,8 +1,10 @@
 import * as React from "react";
 import HomeScreen from "./HomeScreen";
-import { StatusBar, Share, Linking } from "react-native";
+import { StatusBar, Share, Linking, Platform } from "react-native";
 import { inject, observer } from "mobx-react";
 import SplashScreen from 'react-native-splash-screen';
+import DeviceInfo from 'react-native-device-info';
+
 interface Props {
   navigation: any;
   content: any;
@@ -10,19 +12,23 @@ interface Props {
   bookmark: any;
   messaging: any;
   ads: any;
+  advertiseType: any;
+  appVersion: any;
+
 
 }
-
 interface State {
   key: string
   bookmark: Boolean
   selectedItem: any
+  DuringMomentum: boolean,
+  isModalVisible: boolean;
+  visible: boolean;
 
 }
-@inject('content', 'category', 'ads', 'bookmark', 'messaging')
+@inject('appVersion','content', 'category', 'ads', 'bookmark', 'messaging', 'advertiseType')
 
 @observer
-
 
 export default class HomeContainer extends React.Component<Props, State> {
 
@@ -34,16 +40,19 @@ export default class HomeContainer extends React.Component<Props, State> {
       key: '',
       bookmark: false,
       selectedItem: null,
+      DuringMomentum: false,
+      isModalVisible: false,
+      visible: true,
+
+
     };
   }
   onStartReached = () => {
     this.onEndReachedCalledDuringMomentum = false
   }
-
   onEndReached = () => {
     this.props.content.fetchMoreContent(this.state.key);
   }
-
   async componentDidMount() {
     SplashScreen.hide();
     StatusBar.setBarStyle('light-content');
@@ -54,35 +63,46 @@ export default class HomeContainer extends React.Component<Props, State> {
     this.props.category.fetchCategory();
     this.props.ads.fetchAds();
     this.props.content.updateTopView();
+    this.props.content.fetchLink();
+    await this.props.appVersion.fetchAppVersion();
+    const osVersion = DeviceInfo.getVersion();
+    const { appVersion } = this.props.appVersion
+    if (appVersion) {
+      const app = Platform.OS == "ios" ? appVersion.version_ios : appVersion.version_android
+      if (osVersion != app) {
+        this.setState({ isModalVisible: true })
+      }
+    }
   }
+
   _onDetail = () => {
     this.props.navigation.navigate('Detail')
+    this.props.content.selectedDetail();
   }
-  _onMore = async () => {
-
-    await this.props.content.fetchMoreContent()
-  }
-
-  _onRefresh = async () => {
-    await this.props.content.fetchRefreshContent(this.state.key);
-  };
-  // _onEnd =
-
   _onContent = (item: any) => {
     this.props.content.fetchDetail(item)
     this.props.navigation.navigate('Detail')
   }
+  _onEnd = () => {
+    Platform.OS == "ios"
+      ? this.state.DuringMomentum == false
+        ? (this.props.content.fetchMoreContent(),
+          this.setState({ DuringMomentum: true }))
+        : null
+      : this.props.content.fetchMoreContent();
+  };
+
+  _onRefresh = () => {
+    this.props.content.fetchContent();
+  };
   _changeTab = (ref: any) => {
-
-
-
     const key: string = ref.ref.key
     const newKey = key.replace('.$', '')
     this.setState({ key: newKey })
     this.props.content.fetchContent(newKey)
-    console.log('newkey :', newKey);
 
   }
+
   _onModal = (item: any) => {
     // console.log("item",item)
 
@@ -103,12 +123,19 @@ export default class HomeContainer extends React.Component<Props, State> {
     await this.props.bookmark.deleteFavorite(item.key);
     await this.props.bookmark.fetchFavorite();
   }
+
+
+  _onfb = () => {
+    Linking.openURL("")
+  };
+
+
   _onShare = async () => {
-    // const key = this.props.content.dataSelected.key;
-    const key = this.state.selectedItem.key
+    const shareLink = this.props.content.link
+    const key = this.props.content.selectedDetail.key
     try {
       const result = await Share.share({
-        message: `https://bakseynews.com/article/${key}`
+        message: `${shareLink[0].link}/${key}`
       });
 
       if (result.action === Share.sharedAction) {
@@ -123,9 +150,24 @@ export default class HomeContainer extends React.Component<Props, State> {
       console.log("object", error);
     }
   };
-  _onfb = () => {
-    Linking.openURL("https://www.facebook.com/%E1%9E%82%E1%9F%92%E1%9E%9A%E1%9E%BD%E1%9E%9F%E1%9E%B6%E1%9E%9A%E1%9E%81%E1%9F%92%E1%9E%98%E1%9F%82%E1%9E%9A-100598258132780/?__tn__=kC-R&eid=ARCG-5hBUaVY27vkLVp1U9ImLt2FSBDpKQb0tNT97a9KB0_FhJ8iBJ81UqaJyGbiEb0sbjgLFAodJ1Vp&hc_ref=ARToB1zdeZE1QpSwVvnySxicaHCGalhDVHyQRsQoeGj0mtLjr-4xMjhbcjJJgXOn45g&__xts__[0]=68.ARDOZp7rGFTYUr-IV1qWWlsBJBU2n7ZlhX8mYDxLBVe2boIVSKoxo47x7AOL2nD7Vne296MjxfQNgr820SqkJFBiZAs9TubiDZBHoQe1lx978usbslC19ChmH6SOx6bHSUXW7Fh3-jQrc6cCldm-Doqw4Qlwa61xnH_OMeX5mUkSg4kE78yn6RuH-MOMZosDCgggTIvIsDl-VNI7_2vfYVAE3b0EHMybyyBSU1nTDjqVLmMbdptPIccdBTswGB7o-T0Wop1h90TzoLfGfyXcT6VP7bJfpWop")
+  _onclickAds = (dataAds: any) => {
+    this.props.advertiseType.selectedAds(dataAds);
+    Linking.openURL(`${dataAds}`);
   };
+
+  _onCloseModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
+  _toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
+  _goUpdate = (data: any) => {
+    this.props.appVersion.versionFirebase(data);
+    Linking.openURL(`${data}`);
+    // console.log('data', data)
+
+  };
+
   render() {
     const { dataContent, loading, loadingMore, dataSpecial } = this.props.content
     const { category } = this.props.category;
@@ -133,9 +175,11 @@ export default class HomeContainer extends React.Component<Props, State> {
       name: 'ព័ត៌មានថ្មីៗ',
       key: ''
     }
+
     const newcategories = category ? [hotNews, ...category] : [hotNews];
     const { adsDoc } = this.props.ads
     const { saveData } = this.props.bookmark
+    const { appVersion} = this.props.appVersion;
 
 
     return (
@@ -154,10 +198,19 @@ export default class HomeContainer extends React.Component<Props, State> {
         loadingMore={loadingMore}
         onEndReached={this.onEndReached}
         onStartReached={this.onStartReached}
-        onMore={this._onMore}
+        // onMore={this._onMore}
+        onclickAds={this._onclickAds}
         onRefresh={this._onRefresh}
         onShare={this._onShare}
         onfb={this._onfb}
+        goUpdate={this._goUpdate}
+        toggleModal={this._toggleModal}
+        onCloseModal={this._onCloseModal}
+        appVersion={appVersion}
+        isModalVisible={this.state.isModalVisible}
+        DuringMomentum={(value: any) =>
+          this.setState({ DuringMomentum: value })
+        }
       />
     );
 

@@ -1,46 +1,50 @@
 import * as React from "react";
-import { View, StyleSheet, Text, TouchableOpacity ,StatusBar} from "react-native";
-import Modal from 'react-native-modal';
+import { View, StyleSheet, Text, TouchableOpacity, StatusBar, FlatList } from "react-native";
 import modules from "../../modules";
 import { SafeAreaView, ScrollView } from "react-navigation";
 import FastImage from "react-native-fast-image";
-// import More from 'react-native-vector-icons/Entypo';
 import More from 'react-native-vector-icons/MaterialIcons';
 import Share from 'react-native-vector-icons/Feather'
-
-import HeaderDetail from "../../components/HeaderDetail";
 import DetailWebView from "../../components/DetailWebView";
 import { Battambang, BattambangBold } from "../../../function/customFont";
-import { _formatDateTime } from "../../services/datetime.service";
+import { _formatDateTime, _formatShortDate } from "../../services/datetime.service";
 import Icons from 'react-native-vector-icons/Ionicons'
-// import Icon from "react-native-vector-icons/Entypo";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
 import { useState } from "react";
+import CardRelated from "../../components/CardRelated";
+import { addAdsInArray } from "../../services/mapping.service";
 interface Props {
-  onClickBack: () => void;
+  onClickBack: any;
   selectedContent: any;
   onSave: any
   onUnSave: any
   saveData: boolean;
   onShare: any
-  onPress?: (item: any) => void
+  onPress: (item: any) => void
+  data: any
+  item: any
+  name: any
+  relatedContentData: any
+  datacontent: any
+  Content: any
 }
 
 interface State { }
-export default ({ onClickBack, selectedContent, saveData, onUnSave, onSave, onPress, onShare }: Props) => {
+export default ({ Content, onClickBack, selectedContent, saveData, onUnSave, onSave, onPress, onShare, relatedContentData }: Props) => {
   const [visable, setVisable] = useState(false);
+  // const datacontent  = addAdsInArray(Content,relatedContentData,);
+
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle='light-content' backgroundColor="#1D3C78" />
+
       <SafeAreaView />
       <View style={styles.headerDetail}>
-        <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}} onPress={onClickBack}>
+        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={onClickBack}>
           <Icons style={styles.arrow} name='ios-arrow-back' />
-          <Text style={{fontSize:14,...BattambangBold,color:'white'}}>{selectedContent.category.name}</Text>
+          <Text style={{ fontSize: 14, ...BattambangBold, color: 'white' }}>{selectedContent.category.name}</Text>
         </TouchableOpacity>
-       
+
         <View style={styles.TouchableOpacity}>
           {
             saveData ?
@@ -74,22 +78,53 @@ export default ({ onClickBack, selectedContent, saveData, onUnSave, onSave, onPr
             {selectedContent.name}
           </Text>
 
-          <Text style={styles.Date}>{selectedContent.create_date
-            ? _formatDateTime(selectedContent.create_date.seconds)
-            : ""}</Text>
+          <Text style={styles.Date}>
+            ថ្ងៃទី{" "}
+            {selectedContent.create_date
+              ? _formatShortDate(selectedContent.create_date.seconds)
+              : ""}
+          </Text>
 
         </View>
         <View style={styles.WebView}>
 
           <DetailWebView html={selectedContent.editname} />
         </View>
+
+        <View style={styles.centerMode}>
+          <View style={styles.viewtext} />
+          <Text style={styles.TextDate}>RELATED STORIES</Text>
+          <View style={styles.viewtext} />
+        </View>
+        <View style={{ flex: 1, marginHorizontal: modules.BIG_SPACE + 2 }}>
+          <FlatList
+            data={relatedContentData}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(i, index) => index.toString()}
+            renderItem={({ item }: any) => {
+              if (item.key == selectedContent.key) return (<View />)
+
+              return (
+                <CardRelated
+                  key={item.key}
+                  data={item}
+                  onPress={() => onPress(item)}
+
+                />
+              );
+            }}
+
+          />
+
+        </View>
       </ScrollView>
-
-
 
     </View>
   );
+
 };
+
+
 const styles = StyleSheet.create({
   TouchableOpacity: {
     flexDirection: 'row',
@@ -97,7 +132,7 @@ const styles = StyleSheet.create({
   },
   arrow: {
     fontSize: 30,
-    color:'white',
+    color: 'white',
     padding: 10,
   },
   WebView: {
@@ -122,10 +157,7 @@ const styles = StyleSheet.create({
   TextArea: {
     paddingHorizontal: modules.BODY_HORIZONTAL_12,
     paddingTop: modules.PADDING,
-    backgroundColor:'#fff'
-
-
-
+    backgroundColor: '#fff'
   },
   text: {
     fontSize: modules.FONT_H5,
@@ -135,7 +167,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor:modules.COLOR_MAIN
+    backgroundColor: modules.COLOR_MAIN
   },
   content: {
     flex: 1,
@@ -148,36 +180,30 @@ const styles = StyleSheet.create({
   More_Icon: {
     fontSize: 24,
     padding: 6,
-    color:'white'
+    color: 'white'
 
   },
   Share: {
     fontSize: 20,
     padding: 6,
-    color:'white'
-
-
+    color: 'white'
   },
   headerDetail: {
     flexDirection: 'row',
     paddingHorizontal: 5,
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor:modules.COLOR_MAIN,
+    backgroundColor: modules.COLOR_MAIN,
     height: 50
   },
   modalContainer: {
     flex: 1,
     margin: 0,
     justifyContent: 'flex-end',
-
-
   },
   modal: {
     width: modules.VIEW_PORT_WIDTH,
     height: modules.VIEW_PORT_HEIGHT / 4.5,
-
-
   },
   center: {
     justifyContent: 'center',
@@ -190,25 +216,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#fff',
     margin: 6
-
-
   },
   savestyles: {
     flex: 1,
     backgroundColor: '#ffffff',
-
-
-
   },
   body: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 0.3,
     borderBottomColor: 'rgba(0,0,0,0.1)'
-
-
-
-
   },
   icon: {
     fontSize: 30,
@@ -218,13 +235,30 @@ const styles = StyleSheet.create({
   text1: {
     color: modules.SUB_TEXT,
     fontSize: 16,
-
-
   },
   Desc: {
     fontSize: 12,
     color: modules.SUB_TEXT,
-
+  },
+  centerMode: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: modules.PADDING,
+    marginVertical:10
+  },
+  TextDate: {
+    ...BattambangBold,
+    color: modules.COLOR_MAIN,
+    fontSize: modules.FONT_S,
+    marginHorizontal: 10
+  },
+  viewtext: {
+    flexDirection: 'row',
+    height: 1,
+    backgroundColor: modules.TEXT_NOTE,
+    width:modules.VIEW_PORT_WIDTH/3.5
   }
 
 });
+

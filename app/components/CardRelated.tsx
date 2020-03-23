@@ -1,68 +1,44 @@
-import More from 'react-native-vector-icons/MaterialIcons';
-import Share from 'react-native-vector-icons/Feather'
-
 import * as React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Image from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Feather';
-import { _formatDateTime } from '../services/datetime.service';
+import { _formatDateTime, _formatShortDate } from '../services/datetime.service';
 import FastImage from 'react-native-fast-image';
 import DetailWebView from './DetailWebView';
 import ICon from "react-native-vector-icons/Entypo";
 import Eye from "react-native-vector-icons/SimpleLineIcons";
 import modules from '../modules';
-import { BattambangBold } from '../../function/customFont';
+import { BattambangBold, Battambang } from '../../function/customFont';
 import { removeTag } from '../services/formattext.service'
 
 
-
 export interface Props {
-    onClick: () => void
-    data: any
+    onPress: () => void
+    data: any,
     onSave?: any
-    onUnSave:any
-    onShare:any
+    // onShare?:any
 }
 
 
 interface State { }
 
-export default ({ data, onClick, onUnSave, onShare}: Props) => {
+export default ({ data, onPress, onSave, }: Props) => {
     return (
-        <TouchableOpacity onPress={onClick} style={styles.card}>
-
-
+        <TouchableOpacity onPress={onPress} style={styles.card}>
             <View style={[styles.subContainer]}>
                 <View style={styles.containText}>
                     <View style={{ flex: 1 }}>
-                        <Text numberOfLines={3}>{data.name}</Text>
+                        <Text style={styles.text_subtitle} numberOfLines={3}>{data.name}</Text>
+                        <Text style={{ fontSize: 12 }}>
+                            ថ្ងៃទី{" "}
+                            {data.create_date
+                                ? _formatShortDate(data.create_date.seconds)
+                                : ""}
+                        </Text>
                     </View>
                     <FastImage style={styles.img1} source={{ uri: String(data.fileurl) }} />
-
                 </View>
 
-            </View>
-
-
-            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 12 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
-                    {/* <Text>{data.create_date
-                        ? _formatDateTime(data.create_date.seconds)
-                        : ""}</Text>
-
-                    <Eye style={[{ color: modules.SUB_TEXT, fontSize: 16,marginHorizontal:4, marginLeft:8 }]} name='eye' />
-                    <Text style={styles.fontText}>{data.top_view}</Text> */}
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
-                    <TouchableOpacity onPress={() => { onShare() }}>
-                        <Share name="share" style={{ fontSize: 26, marginHorizontal: 4, marginLeft: 8 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => onUnSave()}>
-                        <More name="bookmark" style={{ fontSize: 30, marginHorizontal: 4, marginLeft: 8 }} />
-                    </TouchableOpacity>    
-                </View>
             </View>
 
 
@@ -72,14 +48,25 @@ export default ({ data, onClick, onUnSave, onShare}: Props) => {
 
 
 const styles = StyleSheet.create({
+    eye: {
+        color: modules.SUB_TEXT,
+        fontSize: 16, marginHorizontal: 4, marginLeft: 8
+    },
     card: {
         padding: 12,
         backgroundColor: '#fff',
         borderRadius: 10,
-        // marginHorizontal: 12,
-        marginVertical: 5
+        marginVertical: 5,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.18,
+        // shadowRadius: 1.00,
 
-
+        // elevation: 1,
+        borderBottomWidth:0.20
     },
     icon: {
         marginHorizontal: 4
@@ -90,7 +77,6 @@ const styles = StyleSheet.create({
     },
     subContainer: {
         paddingTop: 12,
-        // backgroundColor: '#2b2b',
         flexDirection: 'row',
         flex: 1
     },
@@ -117,13 +103,21 @@ const styles = StyleSheet.create({
     },
     img1: {
         height: 80,
-        width: 70,
-        borderRadius: 15,
+        width: 100,
+        borderRadius: 6,
         marginLeft: 12,
     },
     text: {
-        fontSize: 16,
+        fontSize: 14,
         ...BattambangBold,
+        opacity: 1,
+        marginBottom: 12,
+        color: '#000'
+
+    },
+    text_subtitle: {
+        fontSize: 12,
+        ...Battambang,
         opacity: 1,
         marginBottom: 12,
         color: '#000'
@@ -132,6 +126,7 @@ const styles = StyleSheet.create({
     text1: {
         fontSize: 13,
         fontWeight: '500',
+
 
     },
     text2: {
@@ -154,8 +149,6 @@ const styles = StyleSheet.create({
     fontText: {
         fontSize: modules.FONT_H5 - 4,
         color: modules.SUB_TITLE,
-
-
     },
 });
 

@@ -8,13 +8,14 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  Platform
 
 } from "react-native";
 import _styles from "../../../_styles";
 import HeaderMain from "../../../components/HeaderMain";
 import modules from "../../../modules";
 import ScrollableTabView, { ScrollableTabBar } from "react-native-scrollable-tab-view";
-import { BattambangBold } from "../../../../function/customFont";
+import { BattambangBold, FontGSansBold, fontGSans } from "../../../../function/customFont";
 import Placeholder from "../../../components/Placeholder";
 import AdsCard from "../../../components/AdsCard";
 import { addAdsInArray } from "../../../services/mapping.service";
@@ -26,9 +27,8 @@ import CardNewsFix from '../../../components/CardNewsFix'
 import { FlatList } from 'react-navigation'
 import BigCard from "../../../components/BigCard";
 import SpecialCard from "../../../components/SpecialCard";
-
-
-
+import FastImage from "react-native-fast-image";
+import IconClose from "react-native-vector-icons/Feather";
 interface Props {
   data?: Array<any>;
   Content?: any;
@@ -47,24 +47,41 @@ interface Props {
   onEndReached: any
   onStartReached: any
   onRefresh: () => void
-  onMore: () => void
+
   dataContent?: any
   onfb: any
   dataSpecial: any;
-
-
-
+  DuringMomentum: any
+  onclickAds: any
+  isModalVisible: any
+  goUpdate: any
+  appVersion:any
+  onCloseModal:any
+  toggleModal:any
 }
-
-export default ({ onfb, onEndReached, loadingMore, loading, onRefresh, onUnSave, onSave, Content, onModal, onPress, category, changeTab, adsDoc, saveData, onShare, dataSpecial }: Props) => {
-  const dataContent: any = addAdsInArray(Content, adsDoc, 6);
+export default ({ isModalVisible,
+  onclickAds,
+  DuringMomentum,
+  onfb,
+  onEndReached,
+  loadingMore,
+  loading, onRefresh,
+  onUnSave, onSave, Content, 
+  onModal, onPress, category, 
+  changeTab, adsDoc, saveData, onShare, 
+  dataSpecial,
+  appVersion, 
+  goUpdate,
+  onCloseModal,
+ }: Props) => {
+  const dataContent: any = addAdsInArray(Content, adsDoc, 5);
 
   const [visable, setVisable] = useState(false);
 
-  // console.log('dataSpecial', dataSpecial)
+
   return (
     <View style={[_styles.flx1, styles.MainContainer]}>
-      <StatusBar barStyle='dark-content' backgroundColor="#1D3C78" />
+      <StatusBar barStyle='light-content' backgroundColor="#1D3C78" />
       <SafeAreaView />
       <HeaderMain img={require("../../../images/logo.png")} onRightClick={onfb} icon="social-facebook" />
       <View style={styles.container}>
@@ -77,9 +94,8 @@ export default ({ onfb, onEndReached, loadingMore, loading, onRefresh, onUnSave,
           onChangeTab={changeTab}
           tabBarUnderlineStyle={styles.underlineStyle}
           renderTabBar={() =>
-
             <ScrollableTabBar style={{ borderBottomWidth: 0, }} />}
-           >
+        >
           {
             category.map((m: any, index: any) => {
               return (
@@ -146,36 +162,45 @@ export default ({ onfb, onEndReached, loadingMore, loading, onRefresh, onUnSave,
                     <FlatList
                       data={dataContent}
                       showsVerticalScrollIndicator={false}
-                      onRefresh={onRefresh}
                       ListHeaderComponent={renderBigCard(dataSpecial, onPress, onModal)}
-                      refreshing={loadingMore}
-                      onEndReached={onEndReached}
-                      onEndReachedThreshold={0.1}
                       ListFooterComponent={renderFooter(loadingMore)}
+                      refreshing={loading ? true : false}
+                      onEndReached={onEndReached}
+                      onRefresh={onRefresh}
+                      onEndReachedThreshold={0.01}
+                      onMomentumScrollBegin={() => {
+                        DuringMomentum(false);
+                      }}
+                      onMomentumScrollEnd={() => {
+                        DuringMomentum(true);
+                      }}
                       keyExtractor={(i, index) => index.toString()}
                       renderItem={({ item }: any) => {
                         const { isAdd, isBig } = item;
                         if (isAdd) {
                           return (
-                            <AdsCard fileurl={item.fileurl} />
-                          );
-                        }
-                      
-                        else if(isBig){
-                          return(
-                            <BigCard
-                            key={item.key}
-                            data={item}
-                            onPress={() => onPress(item)}
-                            onSave={() => {
-                              onModal(item)
-                              setVisable(!visable)
-                            }}
+                            <AdsCard
+                              onClickAds={() => onclickAds(item.link)}
+                              fileurl={item.fileurl}
                             />
                           );
-                            
-                        } 
-                         
+                        }
+
+                        else if (isBig) {
+                          return (
+                            <BigCard
+                              key={item.key}
+                              data={item}
+                              onPress={() => onPress(item)}
+                              onSave={() => {
+                                onModal(item)
+                                setVisable(!visable)
+                              }}
+                            />
+                          );
+
+                        }
+
                         else {
                           return (
                             <CardNewsFix
@@ -201,8 +226,105 @@ export default ({ onfb, onEndReached, loadingMore, loading, onRefresh, onUnSave,
             })
           }
         </ScrollableTabView>
-
+      <Modal isVisible={isModalVisible}>
+        <View
+          style={{
+            backgroundColor: "rgba(255,255,255,0.8)",
+            height:
+              Platform.OS === "ios"
+                ? modules.VIEW_PORT_HEIGHT / 3
+                : modules.VIEW_PORT_HEIGHT / 2.5,
+            borderRadius: 12,
+            justifyContent: "space-between"
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: modules.BODY_HORIZONTAL_24
+            }}
+          >
+            <View
+              style={{
+                padding: modules.BODY_HORIZONTAL_12 / 2,
+                backgroundColor:'#fff',
+                borderRadius: 12,
+                margin: 12
+              }}
+            >
+              <FastImage
+                resizeMode={FastImage.resizeMode.contain}
+                style={styles.logo}
+                source={require("../../../images/logo.png")}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: modules.FONT_H5,
+                ...FontGSansBold,
+                flex: 2
+              }}
+            >
+              Update are Available
+              </Text>
+            <Text
+              style={{
+                fontSize: modules.FONT_P,
+                ...fontGSans,
+                color: modules.SUB_TEXT,
+                flex: 1
+              }}
+            >
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                goUpdate(
+                  Platform.OS === "ios"
+                    ? appVersion.link_ios
+                    : appVersion.link_android
+                )
+              }
+              style={{
+                alignItems: "center",
+                padding: modules.BODY_HORIZONTAL_12,
+                paddingHorizontal: modules.BODY_HORIZONTAL_12,
+                paddingVertical: modules.BODY_HORIZONTAL / 2,
+                backgroundColor: modules.COLOR_MAIN,
+                marginHorizontal: modules.BODY_HORIZONTAL_24,
+                borderRadius: modules.SPACE5
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: modules.FONT_H5,
+                  ...FontGSansBold,
+                  color: modules.WHITE
+                }}
+              >
+                Update Now
+                </Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={{ position: "absolute" }}
+            onPress={onCloseModal}
+          >
+            <IconClose
+              style={{
+                paddingHorizontal: modules.BODY_HORIZONTAL / 2,
+                paddingVertical: modules.SPACE5,
+                color: "red",
+                fontSize: 24
+              }}
+              name="minus-circle"
+            />
+          </TouchableOpacity>
+        </View>
+      </Modal>
       </View>
+
     </View>
   );
 };
@@ -210,17 +332,12 @@ const renderFooter = (loadingMore: boolean) => {
   if (loadingMore) return <ActivityIndicator color={'black'} size={'large'} />
   return <View style={{ height: 80 }} />
 }
-
-
 const renderBigCard = (item: any, onPress: any, onModal: any) => {
-  // console.log('item', item)
+ 
   return (
-    <ScrollView 
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    style={{marginHorizontal: modules.BIG_SPACE+2}}
-    >
-      <View style={styles.specialContainer}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}>
         {item.map((item: any) => {
           return (
             <SpecialCard
@@ -233,12 +350,16 @@ const renderBigCard = (item: any, onPress: any, onModal: any) => {
             />
           )
         })}
-      </View>
+     
     </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  logo: {
+    height: 70,
+    width: 200
+  },
   TabLabel: {
     ...BattambangBold,
     fontSize: 15,
@@ -275,36 +396,32 @@ const styles = StyleSheet.create({
     height: 3,
     backgroundColor: '#1a73e8',
     marginTop: modules.SPACE,
-    marginBottom: modules.BIG_SPACE,
+    // marginBottom: modules.BIG_SPACE,
 
   },
 
   ScrollableTab: {
-    fontSize: modules.FONT,
-    marginTop: modules.SPACE,
+    fontSize: modules.FONT_H5,
+    // marginTop: modules.SPACE,
+    marginTop: modules.PADDING / 2,
     marginBottom: modules.BIG_SPACE,
     ...BattambangBold,
-    fontWeight:'normal'
-
-
+    fontWeight: 'normal',
   },
+ 
   specialContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-   
+ 
+    paddingHorizontal: 10,
+
   },
   modalContainer: {
     flex: 1,
     margin: 0,
     justifyContent: 'flex-end',
-
-
   },
   content: {
     width: modules.VIEW_PORT_WIDTH,
     height: modules.VIEW_PORT_HEIGHT / 4.5,
-
-
   },
   center: {
     justifyContent: 'center',
@@ -318,13 +435,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: 6
 
-
   },
   savestyles: {
     flex: 1,
     backgroundColor: '#ffffff',
-
-
 
   },
   body: {
@@ -345,8 +459,6 @@ const styles = StyleSheet.create({
   text: {
     color: modules.SUB_TEXT,
     fontSize: 16,
-
-
   },
   Desc: {
     fontSize: 12,
@@ -354,9 +466,10 @@ const styles = StyleSheet.create({
 
   },
   view: {
-    // fontSize: 15,
-    // marginTop: modules.PADDING ,
-    backgroundColor: modules.fds_blue_05
+    fontSize: 15,
+    marginTop: modules.PADDING ,
+    backgroundColor: modules.fds_blue_05,
+    // borderWidth:2
 
   }
 });

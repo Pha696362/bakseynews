@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase'
 import { appConfig } from '../dummy/appConfig';
-
+import moment from "moment";
+const Now: number = Number(moment(new Date()).format(`YYYYMMDD`));
 const db = firebase.firestore();
 export function searchRef() {
 
@@ -14,13 +15,30 @@ export function contactRef(){
 }
 
 
-export function AdsRef() {
-  return db.collection("advertise");
-}
+
 export function ContentRef() {
     return db.collection("content");
   }
 
+  export function linkRef(){
+    return db.collection('setting')
+  }
+  
+  
+  export function enviromentUpdateRef() {
+    return db.collection("environment");
+  }
+
+  export function AdsRef() {
+    return db
+      .collection("mobile_advertisement")
+      .where("expireDateKey", ">=", Now);
+  }
+
+  export function RelatedcontentRef() {
+    return db
+      .collection("content")
+  }
 
 export function ContentRefLoad(lastVisible?: any, categoryKey?: string) {
     console.log('ContentRefLoad',ContentRefLoad)

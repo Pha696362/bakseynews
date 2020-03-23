@@ -4,13 +4,10 @@ import { View, StyleSheet, Text, ActivityIndicator, Alert, StatusBar } from "rea
 import modules from "../../modules";
 import { SafeAreaView, FlatList } from "react-navigation";
 import FastImage from "react-native-fast-image";
-
 import BookmarkCard from "../../components/BookmarkCard";
 import HeaderDetail from "../../components/HeaderDetail";
 import HeaderMain from "../../components/HeaderMain";
 import { keys } from "mobx";
-// import { fontGSans } from "../../../functions/customFont";
-
 interface Props {
   data: any,
   progress: boolean,
@@ -24,8 +21,10 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
 
   return (
     <View style={styles.container}>
-      
-      <SafeAreaView />
+
+      <SafeAreaView style={{backgroundColor:modules.COLOR_MAIN}}/>
+
+      <StatusBar barStyle='light-content' backgroundColor="#1D3C78" />
 
       <HeaderMain title="Saved Items" onDelete={
 
@@ -54,7 +53,7 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
           <ActivityIndicator />
           :
           !data || data.length == 0 ?
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor:'#ffffff' }}> 
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#fff' }}>
 
               <FastImage
                 resizeMode={FastImage.resizeMode.contain}
@@ -72,12 +71,13 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
             </View>
 
             :
-            <View style={styles.content}>
+          
               <FlatList
-                data={data}
-                renderItem={(item: any) => {
-                  const data = JSON.parse(item.item.data)
-                  // console.log(data)
+                 data= {data}
+                 renderItem={(item:any) => {
+                 const data = JSON.parse(item.item.data)
+                //  console.log('item.item', item.item)
+
                   return (
                     <BookmarkCard data={data} onClick={() => onDetail(data)} onUnSave={onUnsave} onShare={onShare}/>
                   )
@@ -86,7 +86,7 @@ export default ({ data, progress, onDetail, onDelete,onUnsave,onShare }: Props) 
                 }}
               />
 
-             </View>
+
       }
 
     </View>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: modules.COLOR_MAIN
+    backgroundColor: modules.BACKGROUND_PRIMARY,
 
   },
   content: {

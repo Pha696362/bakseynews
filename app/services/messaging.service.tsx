@@ -27,3 +27,4 @@ export async function getToken() {
 export function notificationsRef() {
   return firebase.notifications();
 }
+

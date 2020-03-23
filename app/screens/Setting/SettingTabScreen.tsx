@@ -1,79 +1,96 @@
 
 import * as React from 'react';
-import { View, StyleSheet, Text, ImageBackground, Image } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, StyleSheet, ScrollView, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import modules from '../../modules';
 import { SafeAreaView } from 'react-navigation';
 import CardHeader from '../../components/CardHeader';
-
-
+import Fb from 'react-native-vector-icons/SimpleLineIcons'
+import Icons from 'react-native-vector-icons/Entypo'
 interface Props {
-    title: any
-    img: string
+
     ContactSelect: any
+    onfb: any;
+    onBell: any;
+    onMakeCall: any
 }
 
 interface State {
 }
 
-export default ({ title, img,ContactSelect }: Props) => {
-    return (
-        <SafeAreaView>
-            <CardHeader/>
-        
-        <View style={styles.Group}>
-            <View style={styles.GroupAccount}>
-                <View style={styles.groupIcon}>
-                    <Icon style={styles.icon} name="account-circle" />
-                </View>
-                <View style={styles.GroupText}>
-                {ContactSelect.length>0 ? 
-                  <Text style={styles.TextName}> 
-                  {ContactSelect[0].name}
-                  </Text>:null}
-                    <Text style={styles.text}>BakseyNews.</Text>
-                </View>
-            </View>
-            <View style={styles.GroupAccount}>
-                <View style={[styles.groupIcon, { backgroundColor: '#007acc' }]}>
-                    <Icon style={styles.icon} name="phone" />
-                </View>
-                <View style={styles.GroupText}>
-                    <Text style={styles.TextName}>Phone Number</Text>
-                    {ContactSelect.length>0 ? 
-                    <Text style={styles.text}>
-                        {ContactSelect[0].phonenumber}
-                    </Text>:null}
-                </View>
-            </View>
-            <View style={styles.GroupAccount}>
-                <View style={[styles.groupIcon, { backgroundColor: '#00995c' }]}>
-                    <Icon style={styles.icon} name="email" />
-                </View>
-                <View style={styles.GroupText}>
-                    <Text style={styles.TextName}>Email</Text>
-                    {ContactSelect.length>0 ? 
-                    <Text style={styles.text}>
-                    {ContactSelect[0].email}
-                    </Text>:null}
-                </View>
-            </View>
-            <View style={styles.GroupAccount}>
-                <View style={[styles.groupIcon, { backgroundColor: '#cc0000' }]}>
-                    <Icon style={styles.icon} name="place" />
-                </View>
-                <View style={styles.GroupText}>
-                    <Text style={styles.TextName}>Location</Text>
-                    {ContactSelect.length>0 ? 
-                    <Text style={styles.text1}>
-                    {ContactSelect[0].address}
-                    </Text>:null}
-                </View>
-            </View>
 
-        </View>
-        </SafeAreaView>
+export default ({ onfb, ContactSelect, onBell, onMakeCall }: Props) => {
+    return (
+        <ScrollView>
+            <SafeAreaView style={{ backgroundColor: modules.WHITE }} />
+            <StatusBar barStyle='dark-content' backgroundColor="#ffff" />
+            <CardHeader />
+            <View style={styles.Group}>
+                <View style={styles.GroupAccount}>
+                    <View style={[styles.groupIcon, { backgroundColor: '#ffff' }]}>
+                        <Icon style={styles.icon} name="account-circle" />
+                    </View>
+                    <View style={styles.GroupText}>
+                        {ContactSelect.length > 0 ?
+                            <Text style={styles.TextName}>
+                                {ContactSelect[0].name}
+                            </Text> : null}
+
+                    </View>
+                </View>
+
+                <View style={styles.GroupAccount}>
+                    <View style={[styles.groupIcon, { backgroundColor: '#fff' }]}>
+                        <Icon style={styles.icon} name="phone" />
+                    </View>
+                    <TouchableOpacity style={styles.GroupText} onPress={() => onMakeCall(ContactSelect[0].phonenumber)}>
+                        <Text style={styles.TextName}>Phone Number</Text>
+                        {ContactSelect.length > 0 ?
+                            <Text style={styles.text}>0
+                                {ContactSelect[0].phonenumber}
+                            </Text> : null}
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.GroupAccount}>
+                    <View style={[styles.groupIcon, { backgroundColor: '#fff' }]}>
+                        <Icon style={styles.icon} name="email" />
+                    </View>
+                    <View style={styles.GroupText}>
+                        <Text style={styles.TextName}>Email</Text>
+                        {ContactSelect.length > 0 ?
+                            <Text style={styles.text}>
+                                {ContactSelect[0].email}
+                            </Text> : null}
+                    </View>
+                </View>
+
+                <View style={styles.GroupAccount}>
+                    <View style={[styles.groupIcon, { backgroundColor: '#fff' }]}>
+                        <Icons style={styles.icon} name="address" />
+                    </View>
+                    <View style={styles.GroupText}>
+                        <Text style={styles.TextName}>Address</Text>
+                        {ContactSelect.length > 0 ?
+                            <Text style={styles.text1}>
+                                {ContactSelect[0].address}
+                            </Text> : null}
+                    </View>
+                </View>
+
+                <View style={styles.GroupAccount}>
+                    <View style={[styles.groupIcon, { backgroundColor: '#fff' }]}>
+                        <Icons style={styles.icon} name="bell" />
+                    </View>
+                    <TouchableOpacity style={styles.GroupText} onPress={onBell}>
+                        <Text style={styles.TextName}>កំណត់សារដំណឹង</Text>
+
+                    </TouchableOpacity>
+                </View>
+
+
+            </View>
+        </ScrollView>
+
 
     );
 }
@@ -117,7 +134,7 @@ const styles = StyleSheet.create({
         color: modules.TEXT_NOTE,
     },
     text1: {
-        fontSize:14,
+        fontSize: 14,
         fontWeight: '300',
         marginTop: 5,
         color: modules.TEXT_NOTE,
@@ -131,8 +148,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     icon: {
-        color: modules.WHITE,
+        color: modules.SUB_TEXT,
         fontSize: modules.FONT_H1,
     },
 });
+
+
 

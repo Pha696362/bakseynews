@@ -6,44 +6,48 @@ import Eye from "react-native-vector-icons/SimpleLineIcons";
 import ICon from "react-native-vector-icons/Feather";
 import _styles from "../_styles";
 import { Battambang, BattambangBold } from "../../function/customFont";
-import { _formatDateTime } from "../services/datetime.service";
+import { _formatDateTime, _formatShortDate } from "../services/datetime.service";
 import More from "react-native-vector-icons/Entypo";
 
 interface Props {
-    onPress: () => void
-    onSave?: any
+  onPress: () => void
+  onSave?: any
 
-data:any
+  data: any
 }
 
-interface State {}
+interface State { }
 
-export default ({onPress,data,onSave }: Props) => {
+export default ({ onPress, data, onSave }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.CardContainer}>
-      <FastImage style={styles.Image} source={{ uri: data.fileurl}} />
+      <FastImage style={styles.Image} source={{ uri: data.fileurl }} />
       <View style={styles.text}>
 
         <Text numberOfLines={3} style={styles.TitleFont}>
           {data.name}
         </Text>
       </View>
-     
+
       <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 12 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
-                    <Text>{data.create_date
-                        ? _formatDateTime(data.create_date.seconds)
-                        : ""}</Text>
+          <Text>
+            ថ្ងៃទី{" "}
+            {data.create_date
+              ? _formatShortDate(data.create_date.seconds)
+              : ""}
+          </Text>
 
-                    <Eye style={[{ color: modules.SUB_TEXT, fontSize: 16,marginHorizontal:4, marginLeft:8 }]} name='eye' />
-                    <Text style={styles.fontText}>{data.top_view}</Text>
-                </View>
 
-                <TouchableOpacity onPress={onSave}>
-                    <More style={{fontSize:20}} name="dots-three-horizontal" />
-                </TouchableOpacity>
-            </View>
+          <Eye style={[{ color: modules.SUB_TEXT, fontSize: 16, marginHorizontal: 4, marginLeft: 8 }]} name='eye' />
+          <Text style={styles.fontText}>{data.top_view}</Text>
+        </View>
+
+        <TouchableOpacity onPress={onSave}>
+          <More style={{ fontSize: 20 }} name="dots-three-horizontal" />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
   TitleFont: {
     fontSize: modules.FONT_H6,
     ...BattambangBold,
-    color:'#000'
+    color: '#000'
   },
   CategoryFont: {
     fontSize: modules.FONT_H6,
@@ -70,12 +74,11 @@ const styles = StyleSheet.create({
     marginVertical: modules.SPACE
   },
   CardContainer: {
- 
+
     width: modules.VIEW_PORT_WIDTH,
     backgroundColor: modules.WHITE,
     paddingHorizontal: modules.BODY_HORIZONTAL_12,
-    marginTop: modules.PADDING,
-    marginVertical:5
+    marginVertical: 5
 
   },
   Image: {
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: modules.WHITE
   },
   fontText: {
-    fontSize:14,
+    fontSize: 14,
     ...Battambang,
     color: modules.SUB_TEXT
   }

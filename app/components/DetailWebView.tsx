@@ -90,6 +90,7 @@ export default ({ html, Link }: Props) => {
    img{
   width:100vw !important;
   margin-left: -12px !important;
+  margin-top:6px !important;
    }
 
    h1{
