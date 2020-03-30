@@ -57,15 +57,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 10,
         marginVertical: 5,
-        // shadowColor: "#000",
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowOpacity: 0.18,
-        // shadowRadius: 1.00,
-
-        // elevation: 1,
         borderBottomWidth:0.20
     },
     icon: {
@@ -116,7 +107,7 @@ const styles = StyleSheet.create({
 
     },
     text_subtitle: {
-        fontSize: 12,
+        fontSize: 14,
         ...Battambang,
         opacity: 1,
         marginBottom: 12,

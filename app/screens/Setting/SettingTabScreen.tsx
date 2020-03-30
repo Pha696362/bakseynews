@@ -8,16 +8,13 @@ import CardHeader from '../../components/CardHeader';
 import Fb from 'react-native-vector-icons/SimpleLineIcons'
 import Icons from 'react-native-vector-icons/Entypo'
 interface Props {
-
     ContactSelect: any
     onfb: any;
     onBell: any;
     onMakeCall: any
 }
-
 interface State {
 }
-
 
 export default ({ onfb, ContactSelect, onBell, onMakeCall }: Props) => {
     return (
@@ -26,7 +23,7 @@ export default ({ onfb, ContactSelect, onBell, onMakeCall }: Props) => {
             <StatusBar barStyle='dark-content' backgroundColor="#ffff" />
             <CardHeader />
             <View style={styles.Group}>
-                <View style={styles.GroupAccount}>
+                {/* <View style={styles.GroupAccount}>
                     <View style={[styles.groupIcon, { backgroundColor: '#ffff' }]}>
                         <Icon style={styles.icon} name="account-circle" />
                     </View>
@@ -37,7 +34,7 @@ export default ({ onfb, ContactSelect, onBell, onMakeCall }: Props) => {
                             </Text> : null}
 
                     </View>
-                </View>
+                </View> */}
 
                 <View style={styles.GroupAccount}>
                     <View style={[styles.groupIcon, { backgroundColor: '#fff' }]}>
@@ -120,7 +117,7 @@ const styles = StyleSheet.create({
         width: modules.MARGIN * 2,
     },
     GroupText: {
-        paddingHorizontal: modules.PADDING + 5
+        paddingHorizontal: modules.PADDING 
     },
     TextName: {
         fontSize: modules.FONT_H3 - 2,

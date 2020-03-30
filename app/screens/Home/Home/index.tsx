@@ -126,7 +126,7 @@ export default class HomeContainer extends React.Component<Props, State> {
 
 
   _onfb = () => {
-    Linking.openURL("")
+    Linking.openURL("https://familynews7-a1cf6.firebaseapp.com/page/QrqPt4iaZ5yIxhXjlXX7")
   };
 
 

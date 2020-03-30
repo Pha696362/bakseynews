@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
     color: modules.RED
   },
   title: {
-    fontSize: modules.FONT_H2,
+    fontSize: modules.FONT_H5,
     color: '#fff',
-    ...FontGSansBold
+    ...FontGSansBold,
+    marginRight:40
   }
 });

@@ -83,7 +83,7 @@ export default ({ isModalVisible,
     <View style={[_styles.flx1, styles.MainContainer]}>
       <StatusBar barStyle='light-content' backgroundColor="#1D3C78" />
       <SafeAreaView />
-      <HeaderMain img={require("../../../images/logo.png")} onRightClick={onfb} icon="social-facebook" />
+      <HeaderMain img={require("../../../images/logo.png")} title='Baksey News' onRightClick={onfb} icon="social-facebook" />
       <View style={styles.container}>
 
         <ScrollableTabView
@@ -162,7 +162,7 @@ export default ({ isModalVisible,
                     <FlatList
                       data={dataContent}
                       showsVerticalScrollIndicator={false}
-                      ListHeaderComponent={renderBigCard(dataSpecial, onPress, onModal)}
+                      // ListHeaderComponent={renderBigCard(dataSpecial, onPress, onModal)}
                       ListFooterComponent={renderFooter(loadingMore)}
                       refreshing={loading ? true : false}
                       onEndReached={onEndReached}
